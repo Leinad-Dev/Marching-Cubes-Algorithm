@@ -10,7 +10,7 @@ public class MeshGenerator : MonoBehaviour
         squareGrid = new SquareGrid(map, squareSize);
     }
 
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         //Draw cube visualization for Nodes and ControlNodes
         if (squareGrid != null)
