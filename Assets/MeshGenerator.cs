@@ -5,48 +5,12 @@ using UnityEngine;
 public class MeshGenerator : MonoBehaviour
 {
     public SquareGrid squareGrid;
-    public void GenerateMesh(int[,]map, float squareSize)
-    {
-        squareGrid = new SquareGrid(map, squareSize);
-    }
 
-    void OnDrawGizmos()
-    {
-        //Draw cube visualization for Nodes and ControlNodes
-        if (squareGrid != null)
-        {
-            for (int x = 0; x < squareGrid.squares.GetLength(0); x++)
-            {
-                for (int y = 0; y < squareGrid.squares.GetLength(1); y++)
-                {
-                    Gizmos.color = (squareGrid.squares[x, y].topLeft.active) ? Color.black : Color.white; //true = black, false = white
-                    Gizmos.DrawCube(squareGrid.squares[x, y].topLeft.position, Vector3.one * .4f);
-
-                    Gizmos.color = (squareGrid.squares[x, y].topRight.active) ? Color.black : Color.white; //true = black, false = white
-                    Gizmos.DrawCube(squareGrid.squares[x, y].topRight.position, Vector3.one * .4f);
-
-                    Gizmos.color = (squareGrid.squares[x, y].bottomLeft.active) ? Color.black : Color.white; //true = black, false = white
-                    Gizmos.DrawCube(squareGrid.squares[x, y].bottomLeft.position, Vector3.one * .4f);
-
-                    Gizmos.color = (squareGrid.squares[x, y].bottomRight.active) ? Color.black : Color.white; //true = black, false = white
-                    Gizmos.DrawCube(squareGrid.squares[x, y].bottomRight.position, Vector3.one * .4f);
-
-
-                    Gizmos.color = Color.grey;
-                    Gizmos.DrawCube(squareGrid.squares[x, y].centerTop.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(squareGrid.squares[x, y].centerRight.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(squareGrid.squares[x, y].centerBottom.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(squareGrid.squares[x, y].centerLeft.position, Vector3.one * .15f);
-                    
-                }
-            }
-        }
-    }
 
     public class SquareGrid
     {
         public Square[,] squares;
-        public SquareGrid(int[,] map,float squareSize)
+        public SquareGrid(int[,] map, float squareSize)
         {
             int nodeCountX = map.GetLength(0);
             int nodeCountY = map.GetLength(1);
@@ -55,9 +19,9 @@ public class MeshGenerator : MonoBehaviour
 
             ControlNode[,] controlNodes = new ControlNode[nodeCountX, nodeCountY];
 
-            for (int x=0; x < nodeCountX; x++) //create a grid of control nodes
+            for (int x = 0; x < nodeCountX; x++) //create a grid of control nodes
             {
-                for(int y =0; y< nodeCountY; y++)
+                for (int y = 0; y < nodeCountY; y++)
                 {
                     Vector3 pos = new Vector3(-mapWidth / 2 + x * squareSize + squareSize / 2, 0, -mapHeight / 2 + y * squareSize + squareSize / 2);
                     controlNodes[x, y] = new ControlNode(pos, map[x, y] == 1, squareSize);// ==1 checks for whether it's a wall
@@ -66,9 +30,9 @@ public class MeshGenerator : MonoBehaviour
 
 
             squares = new Square[nodeCountX - 1, nodeCountY - 1];
-            for (int x = 0; x < nodeCountX-1; x++) //create a grid squares out of controls nodes
+            for (int x = 0; x < nodeCountX - 1; x++) //create a grid squares out of controls nodes
             {
-                for (int y = 0; y < nodeCountY-1; y++)
+                for (int y = 0; y < nodeCountY - 1; y++)
                 {
                     //x   = left
                     //x+1 = right
@@ -87,12 +51,13 @@ public class MeshGenerator : MonoBehaviour
                     //[ControlNode] bottomRight = x+1, y
                     //[ControlNode] bottomLeft = x, y
 
-                    squares[x, y] = new Square(controlNodes[x, y+1], controlNodes[x+1, y+1], controlNodes[x+1, y], controlNodes[x, y+1]);
-                        
+                    squares[x, y] = new Square(controlNodes[x, y + 1], controlNodes[x + 1, y + 1], controlNodes[x + 1, y], controlNodes[x, y + 1]);
+
                 }
             }
         }
     }
+
     public class Square
     {
         public ControlNode topLeft, topRight, bottomRight, bottomLeft;
@@ -123,6 +88,7 @@ public class MeshGenerator : MonoBehaviour
 
         }
     }
+    
     public class Node
     {
         public Vector3 position;
@@ -139,7 +105,8 @@ public class MeshGenerator : MonoBehaviour
     {
         public bool active;
         public Node above, right;
-        public ControlNode(Vector3 _pos, bool _active, float squareSize) : base(_pos) //[1] _pos is set from the base construction
+        public ControlNode(Vector3 _pos, bool _active, float squareSize) //these parameters into our ControlNode constructor
+            : base(_pos) //the _pos parameter passed into ControlNode will them be sent to our base constructor "Node(_pos)"
         {
             active = _active;
             above = new Node(position + Vector3.forward * squareSize / 2f);
@@ -147,5 +114,72 @@ public class MeshGenerator : MonoBehaviour
 
         }
     }
+
+
+    public void GenerateMesh(int[,] map, float squareSize)
+    {
+        squareGrid = new SquareGrid(map, squareSize);
+    }
+
+
+    void OnDrawGizmos()
+    {
+        //Draw cube visualization for Nodes and ControlNodes
+        if (squareGrid != null)
+        {
+            for (int x = 0; x < squareGrid.squares.GetLength(0); x++)
+            {
+                for (int y = 0; y < squareGrid.squares.GetLength(1); y++)
+                {
+                    Gizmos.color = (squareGrid.squares[x, y].topLeft.active) ? Color.black : Color.white; //true = black, false = white
+                    Gizmos.DrawCube(squareGrid.squares[x, y].topLeft.position, Vector3.one * .2f);
+
+                    Gizmos.color = (squareGrid.squares[x, y].topRight.active) ? Color.black : Color.white; //true = black, false = white
+                    Gizmos.DrawCube(squareGrid.squares[x, y].topRight.position, Vector3.one * .2f);
+
+                    Gizmos.color = (squareGrid.squares[x, y].bottomLeft.active) ? Color.black : Color.white; //true = black, false = white
+                    Gizmos.DrawCube(squareGrid.squares[x, y].bottomLeft.position, Vector3.one * .2f);
+
+                    Gizmos.color = (squareGrid.squares[x, y].bottomRight.active) ? Color.black : Color.white; //true = black, false = white
+                    Gizmos.DrawCube(squareGrid.squares[x, y].bottomRight.position, Vector3.one * .2f);
+
+
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawCube(squareGrid.squares[x, y].centerTop.position, Vector3.one * .1f);
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawCube(squareGrid.squares[x, y].centerRight.position, Vector3.one * .1f);
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawCube(squareGrid.squares[x, y].centerBottom.position, Vector3.one * .1f);
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawCube(squareGrid.squares[x, y].centerLeft.position, Vector3.one * .1f);
+
+
+/*                    Gizmos.color = (squareGrid.squares[x, y].topLeft.active && squareGrid.squares[x, y].topRight.active) ? Color.red : Color.black;
+                    Gizmos.DrawLine(squareGrid.squares[x, y].topLeft.position, squareGrid.squares[x, y].topRight.position);
+
+                    Gizmos.color = (squareGrid.squares[x, y].topRight.active && squareGrid.squares[x, y].bottomRight.active) ? Color.green : Color.black;
+                    Gizmos.DrawLine(squareGrid.squares[x, y].topRight.position, squareGrid.squares[x, y].bottomRight.position);
+
+                    Gizmos.color = (squareGrid.squares[x, y].bottomRight.active && squareGrid.squares[x, y].bottomLeft.active) ? Color.blue : Color.black;
+                    Gizmos.DrawLine(squareGrid.squares[x, y].bottomRight.position, squareGrid.squares[x, y].bottomLeft.position);
+
+                    Gizmos.color = (squareGrid.squares[x, y].bottomLeft.active && squareGrid.squares[x, y].topLeft.active) ? Color.yellow : Color.black;
+                    Gizmos.DrawLine(squareGrid.squares[x, y].bottomLeft.position, squareGrid.squares[x, y].topLeft.position);*/
+
+
+
+
+
+
+
+
+
+
+
+                }
+            }
+        }
+    }
+
 }
 
