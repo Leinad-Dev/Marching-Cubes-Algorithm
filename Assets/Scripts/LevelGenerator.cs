@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    public static LevelGenerator instance;
+
     [Range(1, 100)]
     public int width;
 
@@ -16,8 +18,24 @@ public class LevelGenerator : MonoBehaviour
     public GridElement gridElement;
     public GridElement[] gridElements;
 
+
+    private void Awake()
+    {
+        if (instance == null) //no instance of level generator in game.
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject); //already exists in scene, destroy this copy.
+        }
+    }
+
     private void Start()
     {
+
+        
+
         gridElements = new GridElement[width * depth * height];
    
 
@@ -29,11 +47,15 @@ public class LevelGenerator : MonoBehaviour
                 for (int z = 0; z < depth; z++)
                 {
                     GridElement gridElementInstance = Instantiate(gridElement, new Vector3(x,y,z),Quaternion.identity,this.transform);
-                    gridElementInstance.name = "gridElement" + "_(" + x + "," + y + "," + z + ")";
+                    gridElementInstance.InitializeElement(x, y, z);
 
-                    gridElements[x+width*(z+width*y)]=  gridElementInstance;
-                    //[x+width*(z+width*y)] this transforms our 3D array into a 1D array.
+                    //transforms our 3D array into a 1D array.
                     //1D array allows us to easily access neighbor elements
+                    //      [level to start] + [lane to start] + [spot to take in lane]                        
+                    gridElements[(y*(width*depth)) + (x*depth) + z] = gridElementInstance;
+
+
+                    
                 }
             }
         }
