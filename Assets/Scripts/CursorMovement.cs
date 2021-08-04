@@ -84,7 +84,7 @@ public class CursorMovement : MonoBehaviour
                 break;
             case 5:
                 //add y+
-                if (lastHitCoord.z < height - 1)
+                if (lastHitCoord.y < height - 1)
                 {
                     LevelGenerator.instance.gridElements[((lastHitCoord.y+1) * ((width * depth))) + ((lastHitCoord.x) * depth) + lastHitCoord.z].EnableELement();
                 }

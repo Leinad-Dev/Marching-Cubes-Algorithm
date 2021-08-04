@@ -476,12 +476,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87b0ef6741145148b409725bda2b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 5
-  height: 10
-  depth: 5
+  width: 2
+  height: 2
+  depth: 2
   gridElement: {fileID: 2568462536932835679, guid: a7b84f7e9c76adc4f8cc541778217299,
     type: 3}
+  cornerElement: {fileID: 6567850836583312349, guid: 86a4cf050a86a334fab570cad1771dac,
+    type: 3}
   gridElements: []
+  cornerElements: []
 --- !u!4 &345476620
 Transform:
   m_ObjectHideFlags: 0
