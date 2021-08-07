@@ -4,7 +4,8 @@ public class CornerElement : MonoBehaviour
 {
     private Coordinates coordinatesCornerElement;
 
-    public GridElement[] nearbyGridCornerNode = new GridElement[8];
+    public GridElement[] nearbyGridElements = new GridElement[8];
+    public int bitMaskValue;
 
     public void InitializeCornerElement(int setX, int setY, int setZ)
     {
@@ -15,6 +16,11 @@ public class CornerElement : MonoBehaviour
     public void SetCornerPosition(float setX, float setY, float setZ)
     {
         this.transform.position = new Vector3(setX, setY, setZ);
+    }
+
+    public void SetCornerElement()
+    {
+        bitMaskValue = BitMask.GetBitMask(nearbyGridElements);
     }
 
     public void SetNearGridElements()
@@ -28,21 +34,21 @@ public class CornerElement : MonoBehaviour
         {
             //UpperNorthEast
             //Pass GridElementCube script to the connected corner node
-            nearbyGridCornerNode[0] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + (coord.x * depth) + coord.z];
+            nearbyGridElements[0] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + (coord.x * depth) + coord.z];
         }
 
         if (coord.x > 0 && coord.y < height && coord.z < depth)
         {
             //UpperNorthWest
             //Pass GridElementCube script to the connected corner node
-            nearbyGridCornerNode[1] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + ((coord.x-1) * depth) + coord.z];
+            nearbyGridElements[1] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + ((coord.x-1) * depth) + coord.z];
         }
 
         if (coord.x > 0 && coord.y < height && coord.z > 0)
         {
             //LowerNorthWest
             //Pass GridElementCube script to the connected corner node
-            nearbyGridCornerNode[2] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + ((coord.x - 1) * depth) + (coord.z - 1)];
+            nearbyGridElements[2] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + ((coord.x - 1) * depth) + (coord.z - 1)];
 
         }
 
@@ -50,33 +56,33 @@ public class CornerElement : MonoBehaviour
         {
             //LowerNorthEast
             //Pass GridElementCube script to the connected corner node
-            nearbyGridCornerNode[3] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + (coord.x * depth) + (coord.z - 1)];
+            nearbyGridElements[3] = LevelGenerator.instance.gridElements[(coord.y * (width * depth)) + (coord.x * depth) + (coord.z - 1)];
         }
 
         if (coord.x < width && coord.y > 0 && coord.z < depth)
         {
             //UpperSouthEast
-            nearbyGridCornerNode[4] = LevelGenerator.instance.gridElements[((coord.y - 1) * (width * depth)) + ((coord.x) * depth) + coord.z];
+            nearbyGridElements[4] = LevelGenerator.instance.gridElements[((coord.y - 1) * (width * depth)) + ((coord.x) * depth) + coord.z];
         }
 
         if (coord.x > 0 && coord.y > 0 && coord.z < depth)
         {
             //UpperSouthWest
-            nearbyGridCornerNode[5] = LevelGenerator.instance.gridElements[(((coord.y - 1)) * (width * depth)) + (((coord.x - 1)) * depth) + coord.z];
+            nearbyGridElements[5] = LevelGenerator.instance.gridElements[(((coord.y - 1)) * (width * depth)) + (((coord.x - 1)) * depth) + coord.z];
 
         }
 
         if (coord.x > 0 && coord.y > 0 && coord.z > 0)
         {
             //LowerSouthWest
-            nearbyGridCornerNode[6] = LevelGenerator.instance.gridElements[(((coord.y - 1)) * (width * depth)) + (((coord.x - 1)) * depth) + (coord.z - 1)];
+            nearbyGridElements[6] = LevelGenerator.instance.gridElements[(((coord.y - 1)) * (width * depth)) + (((coord.x - 1)) * depth) + (coord.z - 1)];
 
         }
 
         if (coord.x < width && coord.y > 0 && coord.z > 0)
         {
             //LowerSouthEast
-            nearbyGridCornerNode[7] = LevelGenerator.instance.gridElements[((coord.y - 1) * (width * depth)) + ((coord.x) * depth) + (coord.z - 1)];
+            nearbyGridElements[7] = LevelGenerator.instance.gridElements[((coord.y - 1) * (width * depth)) + ((coord.x) * depth) + (coord.z - 1)];
         }
 
 
