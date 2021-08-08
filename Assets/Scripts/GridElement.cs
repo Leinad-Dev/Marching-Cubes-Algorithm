@@ -22,16 +22,34 @@ public class GridElement : MonoBehaviour
     private Collider col;
     private Renderer rend;
     private bool isEnable;
+    private float elementHeight;
     public CornerElement[] corners = new CornerElement[8];
 
-    public void InitializeElement(int setX, int setY, int setZ)
+    private void Start()
     {
+        
+    }
+
+    private void Update()
+    {
+        if (Random.Range(1, 100) < 50)
+        {
+
+        }
+    }
+    public void InitializeElement(int setX, int setY, int setZ, float setElementHeight)
+    {
+
         int width = LevelGenerator.instance.width;
         int height = LevelGenerator.instance.height;
         int depth = LevelGenerator.instance.depth;
 
         coord = new Coordinates(setX, setY, setZ);
         name = "GE_" + coord.x + "_" + coord.y + "_" + coord.z;
+
+        this.elementHeight = setElementHeight;
+        this.transform.localScale = new Vector3(1f, elementHeight, 1f);
+
         col = GetComponent<Collider>();
         rend = GetComponent<MeshRenderer>();
 
@@ -44,6 +62,10 @@ public class GridElement : MonoBehaviour
         corners[5] = LevelGenerator.instance.cornerElements[((coord.y + 1) * ((width + 1) * (depth + 1))) + ((coord.x + 1) * (depth + 1)) + coord.z]; //x +1
         corners[6] = LevelGenerator.instance.cornerElements[((coord.y + 1) * ((width + 1) * (depth + 1))) + (coord.x * (depth + 1)) + (coord.z + 1)]; //z +1
         corners[7] = LevelGenerator.instance.cornerElements[((coord.y + 1) * ((width + 1) * (depth + 1))) + ((coord.x + 1) * (depth + 1)) + (coord.z + 1)]; //z +1 && x +1
+
+        //need to manually refresh the collider bounds by turning col off and on, otherwise our bound values don't update before we use them to position corners
+        col.enabled = false;
+        col.enabled = true;
 
         //positioning of corner elements
         corners[0].SetCornerPosition(col.bounds.min.x, col.bounds.min.y, col.bounds.min.z);

@@ -5,22 +5,20 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     public static LevelGenerator instance;
-
     [Range(1, 100)]
     public int width;
-
     [Range(1, 100)]
     public int height;
-
     [Range(1, 100)]
     public int depth;
-
     public GridElement gridElement;
     public CornerElement cornerElement;
-
     public GridElement[] gridElements;
     public CornerElement[] cornerElements;
 
+    private float floorHeight = 0.25f;
+    private float basementHeight;
+    private float elementHeight;
 
     private void Awake()
     {
@@ -37,8 +35,9 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
 
+        basementHeight = 1.5f - (floorHeight/2);
+ 
         
-
         gridElements = new GridElement[width * depth * height]; //set length of array
         cornerElements = new CornerElement[(width + 1) * (depth + 1) * (height + 1)]; //set length of array
 
@@ -58,20 +57,32 @@ public class LevelGenerator : MonoBehaviour
         }
 
 
-        for (int y =0; y<height; y++)
+        for (int y =0; y < height; y++)
         {
+            float yPos = y; //using this to get center pivot value of basement since it's pivot y value is different than other floors
+            if (y == 0) //floor plane
+            {
+                elementHeight = floorHeight;
+            }
+            else if (y == 1)
+            {
+                elementHeight = basementHeight;
+                yPos = (floorHeight/2) +   //y pivot/center location of floor
+                       (basementHeight/2); //y pivot/center location of basement
+            }
+            else
+            {
+                elementHeight = 1;
+            }
+
             for (int x = 0; x < width; x++)
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    GridElement gridElementInstance = Instantiate(gridElement, new Vector3(x,y,z),Quaternion.identity,this.transform);
-                    gridElementInstance.InitializeElement(x, y, z);
+                    GridElement gridElementInstance = Instantiate(gridElement, new Vector3(x,yPos,z),Quaternion.identity,this.transform);
+                    gridElementInstance.InitializeElement(x, y, z, elementHeight);
+                    gridElements[(y*(width*depth)) + (x*depth) + z] = gridElementInstance; //transforms our 3D array into a 1D array.  
 
-                    //transforms our 3D array into a 1D array.
-                    //1D array allows us to easily access neighbor elements
-                    //      [level to start] + [lane to start] + [spot to take in lane]                        
-                    gridElements[(y*(width*depth)) + (x*depth) + z] = gridElementInstance;
-   
                 }
             }
         }

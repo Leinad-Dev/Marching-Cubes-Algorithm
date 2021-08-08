@@ -476,9 +476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87b0ef6741145148b409725bda2b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 2
-  height: 2
-  depth: 2
+  width: 5
+  height: 5
+  depth: 5
   gridElement: {fileID: 2568462536932835679, guid: a7b84f7e9c76adc4f8cc541778217299,
     type: 3}
   cornerElement: {fileID: 6567850836583312349, guid: 86a4cf050a86a334fab570cad1771dac,
@@ -870,7 +870,7 @@ RectTransform:
   m_GameObject: {fileID: 611708999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 601527690}
   - {fileID: 248534613}

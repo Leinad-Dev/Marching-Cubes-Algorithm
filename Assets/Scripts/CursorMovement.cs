@@ -9,12 +9,15 @@ public class CursorMovement : MonoBehaviour
     Ray ray;
 
     GridElement lastHitGridElement;
+    private float cubeOffset = .1f;
+    private Vector3 CubeSize = new Vector3(1f, 1f, 1f);
 
 
 
     private void Start()
     {
-        
+        //disable cube cursor on start, enable when we find a collider
+        gameObject.GetComponent<Canvas>().enabled = false;
     }
 
     private void Update()
@@ -23,7 +26,15 @@ public class CursorMovement : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit) && hit.collider.tag == "gridElement")
         {
-/*            Debug.Log("Just hit object named: " + hit.collider.name);*/
+
+            //re-enable our cube visuals if they had previously been turned off
+            if(gameObject.GetComponent<Canvas>().enabled == false)
+            {
+                gameObject.GetComponent<Canvas>().enabled = true;
+            }
+            
+
+
             transform.position = hit.collider.transform.position;
             lastHitGridElement = hit.collider.gameObject.GetComponent<GridElement>();
 
@@ -33,7 +44,16 @@ public class CursorMovement : MonoBehaviour
                 SetCurserButton(0);
 
             }
+
+            UpdateCursorCubeSize();
         }
+
+
+
+       
+
+
+
     }
 
     public void SetCurserButton(int input)
@@ -90,5 +110,20 @@ public class CursorMovement : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void UpdateCursorCubeSize()
+    {
+        //we want to maintain our .1 offset of cube. 
+        //cube scale 1.1, so we mult that by our element size on y axis to retain our offset of .1 
+        GetComponent<RectTransform>().localScale = new Vector3((CubeSize.x + cubeOffset),
+                                                       ((CubeSize.y + cubeOffset) * lastHitGridElement.gameObject.transform.localScale.y),
+                                                       (CubeSize.z + cubeOffset));
+
+
+
+
+
+
     }
 }
