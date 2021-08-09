@@ -2,15 +2,29 @@
 
 public class CornerElement : MonoBehaviour
 {
+    public Material buildingMat;
+    public Material floorMat;
     private Coordinates coordinatesCornerElement;
 
     public GridElement[] nearbyGridElements = new GridElement[8];
     public int bitMaskValue;
 
+
+    private MeshFilter meshFilter;
+
+
+
+
+
     public void InitializeCornerElement(int setX, int setY, int setZ)
     {
         coordinatesCornerElement = new Coordinates(setX, setY, setZ);
         this.name = "CE_" + coordinatesCornerElement.x + "_" + coordinatesCornerElement.y + "_" + coordinatesCornerElement.z;
+        meshFilter = this.GetComponent<MeshFilter>();
+
+/*        //swap material and scale cornerCircle to wall
+        this.gameObject.transform.localScale = new Vector3(1,1,1);//originally we scaled our corner circle to 0.1, now that we are swapping it with a mesh lets set the scale back to 1
+  */
     }
 
     public void SetCornerPosition(float setX, float setY, float setZ)
@@ -21,6 +35,8 @@ public class CornerElement : MonoBehaviour
     public void SetCornerElement()
     {
         bitMaskValue = BitMask.GetBitMask(nearbyGridElements);
+        meshFilter.mesh = CornerMeshes.instance.GetCornerMesh(bitMaskValue, coordinatesCornerElement.y);
+        SetCornerMeshMaterial(coordinatesCornerElement.y);
     }
 
     public void SetNearGridElements()
@@ -89,6 +105,19 @@ public class CornerElement : MonoBehaviour
 
 
 
+
+    }
+
+    private void SetCornerMeshMaterial(int floorLevel)
+    {
+        if(this.gameObject.transform.position.y < .1f)//floor
+        {
+            this.gameObject.GetComponent<MeshRenderer>().material = floorMat;
+        }
+        else
+        {
+            this.gameObject.GetComponent<MeshRenderer>().material = buildingMat;
+        }
 
     }
 }

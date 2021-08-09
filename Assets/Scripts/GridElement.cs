@@ -86,7 +86,7 @@ public class GridElement : MonoBehaviour
     public void EnableELement()
     {
         this.isEnable = true;
-        this.rend.enabled = true;
+        //this.rend.enabled = true;
         this.col.enabled = true;
 
         foreach(CornerElement ce in corners)
@@ -99,7 +99,7 @@ public class GridElement : MonoBehaviour
     public void DisableElement()
     {
         this.isEnable = false;
-        this.rend.enabled = false;
+        //this.rend.enabled = false;
         this.col.enabled = false;
 
         foreach (CornerElement ce in corners)

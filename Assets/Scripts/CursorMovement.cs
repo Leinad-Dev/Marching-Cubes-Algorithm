@@ -9,7 +9,7 @@ public class CursorMovement : MonoBehaviour
     Ray ray;
 
     GridElement lastHitGridElement;
-    private float cubeOffset = .1f;
+    private float cubeOffset = .4f; //padding added to avoid clipping with building walls
     private Vector3 CubeSize = new Vector3(1f, 1f, 1f);
 
 
@@ -39,7 +39,7 @@ public class CursorMovement : MonoBehaviour
             lastHitGridElement = hit.collider.gameObject.GetComponent<GridElement>();
 
             //check if right click mouse button has been clicked (delete)
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 SetCurserButton(0);
 
