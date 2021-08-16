@@ -16,8 +16,8 @@ public class LevelGenerator : MonoBehaviour
     public GridElement[] gridElements;
     public CornerElement[] cornerElements;
 
-    private float floorHeight = 0.25f;
-    private float basementHeight;
+    private float floorHeight = .125f;
+    private float basementHeight = 1.5f;
     private float elementHeight;
 
     private void Awake()
@@ -35,7 +35,7 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
 
-        basementHeight = 1.5f - (floorHeight/2);
+        /*basementHeight = 1.5f - (floorHeight/2);*/
  
         
         gridElements = new GridElement[width * depth * height]; //set length of array
@@ -62,13 +62,13 @@ public class LevelGenerator : MonoBehaviour
             float yPos = y; //using this to get center pivot value of basement since it's pivot y value is different than other floors
             if (y == 0) //floor plane
             {
-                elementHeight = floorHeight;
+                elementHeight = floorHeight*2;
             }
             else if (y == 1)
             {
                 elementHeight = basementHeight;
-                yPos = (floorHeight/2) +   //y pivot/center location of floor
-                       (basementHeight/2); //y pivot/center location of basement
+                yPos = ((floorHeight/2) +   //y pivot/center location of floor
+                       (basementHeight/2))-(floorHeight/2); //y pivot/center location of basement
             }
             else
             {

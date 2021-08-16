@@ -38,21 +38,21 @@ public class CornerMeshes : MonoBehaviour
 
         if(floorLevel > 1)
         {
-            if(meshes.TryGetValue(bitmask.ToString(), out meshToReturn))
+            if(meshes.TryGetValue("_" + bitmask.ToString(), out meshToReturn))
             {
                 return meshToReturn;
             }
         }
         else if (floorLevel == 0)
         {
-            if (meshes.TryGetValue(0 + "_" + bitmask.ToString(), out meshToReturn))
+            if (meshes.TryGetValue("_" + 0 + "_" + bitmask.ToString(), out meshToReturn))
             {
                 return meshToReturn;
             }
         }
         else if (floorLevel == 1)
         {
-            if (meshes.TryGetValue(1 + "_" + bitmask.ToString(), out meshToReturn))
+            if (meshes.TryGetValue("_" + 1 + "_" + bitmask.ToString(), out meshToReturn))
             {
                 return meshToReturn;
             }
