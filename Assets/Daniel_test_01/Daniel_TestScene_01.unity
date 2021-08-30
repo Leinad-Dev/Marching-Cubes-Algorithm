@@ -476,9 +476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87b0ef6741145148b409725bda2b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 4
-  height: 4
-  depth: 4
+  width: 3
+  height: 3
+  depth: 3
   gridElement: {fileID: 2568462536932835679, guid: a7b84f7e9c76adc4f8cc541778217299,
     type: 3}
   cornerElement: {fileID: 6567850836583312349, guid: 86a4cf050a86a334fab570cad1771dac,
